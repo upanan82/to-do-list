@@ -1,0 +1,62 @@
+#root {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.todoList {
+    padding-top: 15px;
+}
+
+.text {
+    display: inline;
+    overflow: hidden;
+    padding-left: 10px;
+}
+
+.removeBut, .okBut {
+    padding: 4px;
+    background: #dd4b39;
+    color: #fff;
+    border-radius: 3px;
+    cursor: pointer;
+    -webkit-transform: scale(.8);
+    -moz-transform: scale(.8);
+    -o-transform: scale(.8);
+    float: right;
+    margin: -2px 0 0 0;
+}
+
+.okBut {
+    background: #4caf50;
+    float: left;
+}
+
+.listStyle {
+    margin-top: 5px;
+    border-color: #ddd;
+    box-shadow: none;
+}
+.done {
+    text-decoration: line-through;
+    opacity: .4;
+}
+
+.someText {
+    color: #ddd;
+    font-size: 22px;
+}
+
+.selectFilter {
+    color: #fff;
+    background-color: #286090;
+    border-color: #204d74;
+}
+
+.filter {
+    margin-top: 30px;
+}
+
+.filterWork {
+    visibility: hidden;
+    position: absolute;
+}
