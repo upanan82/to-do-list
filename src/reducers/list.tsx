@@ -3,6 +3,8 @@ import { ListActionInt, ListStateInt } from '../interfaces/index';
 
 let initialSate: Array<ListStateInt> = [];
 
+export type List = (state: Array<ListStateInt>, action: ListActionInt) => Array<ListStateInt>;
+
 export default function list(state: Array<ListStateInt> = initialSate, action: ListActionInt): Array<ListStateInt> {
     switch (action.type) {
         case ADD_ITEM: {
@@ -10,13 +12,13 @@ export default function list(state: Array<ListStateInt> = initialSate, action: L
         }
         case DONE_ITEM: {
             return state.filter((el, ind) => {
-                el.key === action.payload.id ? el.status = !el.status : el.status = el.status; 
+                el.key === action.payload.key ? el.status = !el.status : el.status = el.status; 
                 return el;
             });
         }
         case REMOVE_ITEM: {
             return state.filter((el, ind) => {
-                if (el.key !== action.payload.id) {
+                if (el.key !== action.payload.key) {
                     return el;
                 }
                 return;

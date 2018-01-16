@@ -6,11 +6,19 @@ export interface SizeStateInt {
     active: number;
 }
 
-export interface FilterActionInt {
+export interface ListActionInt {
     type: string;
     payload: {
-        status: boolean | null;
+        status?: boolean;
+        text?: string;
+        key: number;
     };
+}
+
+export interface ListStateInt {
+    key: number;
+    text?: string;
+    status?: boolean;
 }
 
 export interface SizeActionInt {
@@ -20,18 +28,9 @@ export interface SizeActionInt {
     };
 }
 
-export interface ListActionInt {
+export interface FilterActionInt {
     type: string;
     payload: {
-        id?: number;
-        status?: boolean;
-        text?: string;
-        key?: number;
+        status: boolean | null;
     };
-}
-
-export interface ListStateInt {
-    key?: number;
-    text?: string;
-    status?: boolean;
 }

@@ -1,12 +1,29 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { addItem } from '../actions/list';
+import { addItem, AddItem } from '../actions/list';
+import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
 
-class Form extends React.Component {
+interface Props extends StateProps, DispatchProps {}
+
+interface StateProps {
+    testStore: StateInt;
+}
+
+interface StateInt {
+    list: Array<ListStateInt>;
+    filter: FilterStateInt;
+    size: SizeStateInt;
+}
+
+interface DispatchProps {
+    add: AddItem;
+}
+
+class Form extends React.Component<Props, {}> {
     private inputVal: HTMLInputElement;
     render() {
-        const prop: any = this.props;
+        const prop: Props = this.props;
         return (
             <form
                 onSubmit={(e) => {
@@ -31,13 +48,13 @@ class Form extends React.Component {
     }
 }
 
-function mapStateToProps(state: object): object {
+function mapStateToProps(state: StateInt): StateProps {
     return {
         testStore: state
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>): object {
+function mapDispatchToProps(dispatch: Dispatch<object>) {
     return bindActionCreators(
         {
             add: addItem
@@ -46,7 +63,7 @@ function mapDispatchToProps(dispatch: Dispatch<object>): object {
     );
 }
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
     mapStateToProps,
     mapDispatchToProps
 )(Form);

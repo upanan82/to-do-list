@@ -5,6 +5,8 @@ let initialSate: FilterStateInt = {
     status: null
 };
 
+export type Filter = (state: FilterStateInt, action: FilterActionInt) => FilterStateInt;
+
 export default function filter(state: FilterStateInt = initialSate, action: FilterActionInt): FilterStateInt {
     switch (action.type) {
         case NEW_FILTER: {

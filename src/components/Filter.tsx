@@ -1,11 +1,28 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { newFilter } from '../actions/filter';
+import { newFilter, NewFilter } from '../actions/filter';
+import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
 
-class Filter extends React.Component {
+interface Props extends StateProps, DispatchProps {}
+
+interface StateProps {
+    testStore: StateInt;
+}
+
+interface StateInt {
+    list: Array<ListStateInt>;
+    filter: FilterStateInt;
+    size: SizeStateInt;
+}
+
+interface DispatchProps {
+    editFilter: NewFilter;
+}
+
+class Filter extends React.Component<Props, {}> {
     render() {
-        const prop: any = this.props;
+        const prop: Props = this.props;
         return (
             <div className="btn-group btn-group-justified filter">
                 <a
@@ -40,13 +57,13 @@ class Filter extends React.Component {
     }
 }
 
-function mapStateToProps(state: object): object {
+function mapStateToProps(state: StateInt): StateProps {
     return {
         testStore: state
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>): object {
+function mapDispatchToProps(dispatch: Dispatch<object>) {
     return bindActionCreators(
         {
             editFilter: newFilter
@@ -55,7 +72,7 @@ function mapDispatchToProps(dispatch: Dispatch<object>): object {
     );
 }
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
     mapStateToProps,
     mapDispatchToProps
 )(Filter);

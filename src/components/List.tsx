@@ -1,14 +1,32 @@
 import * as React from 'react';
 import { connect, Dispatch } from 'react-redux';
 import { DONE_ITEM, REMOVE_ITEM } from '../constants/index';
-import { ListStateInt } from '../interfaces/index';
+import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
 import { bindActionCreators } from 'redux';
-import { editList } from '../actions/list';
-import { newSize } from '../actions/size';
+import { editList, EditList } from '../actions/list';
+import { newSize, NewSize } from '../actions/size';
 
-class List extends React.Component {
+interface Props extends StateProps, DispatchProps {}
+
+interface StateProps {
+    testStore: StateInt;
+}
+
+interface StateInt {
+    list: Array<ListStateInt>;
+    filter: FilterStateInt;
+    size: SizeStateInt;
+}
+
+interface DispatchProps {
+    removeEl: EditList;
+    done: EditList;
+    editSize: NewSize;
+}
+
+class List extends React.Component<Props, {}> {
     render() {
-        const prop: any = this.props;
+        const prop: Props = this.props;
         let newList: Array<ListStateInt> = prop.testStore.list.filter((el: ListStateInt) => {
             if (prop.testStore.filter.status === null) {
                 return el;
@@ -55,13 +73,13 @@ class List extends React.Component {
     }
 }
 
-function mapStateToProps(state: object): object {
+function mapStateToProps(state: StateInt): StateProps {
     return {
         testStore: state
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>): object {
+function mapDispatchToProps(dispatch: Dispatch<object>) {
     return bindActionCreators(
         {
             removeEl: editList,
@@ -72,7 +90,7 @@ function mapDispatchToProps(dispatch: Dispatch<object>): object {
     );
 }
 
-export default connect(
+export default connect<StateProps, DispatchProps>(
     mapStateToProps,
     mapDispatchToProps
 )(List);
