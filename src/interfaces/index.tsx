@@ -34,3 +34,9 @@ export interface FilterActionInt {
         status: boolean | null;
     };
 }
+
+export interface StateInt {
+    list: ListStateInt[];
+    filter: FilterStateInt;
+    size: SizeStateInt;
+}

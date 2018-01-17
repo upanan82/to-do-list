@@ -1,28 +1,21 @@
 import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
+import { connect } from 'react-redux';
+import { StateInt } from '../interfaces/index';
 
 interface Props extends StateProps, DispatchProps {}
 
 interface StateProps {
-    testStore: StateInt;
-}
-
-interface StateInt {
-    list: Array<ListStateInt>;
-    filter: FilterStateInt;
-    size: SizeStateInt;
+    listLength: number;
 }
 
 interface DispatchProps {}
 
 class Title extends React.Component<Props, {}> {
     render() {
-        const prop: Props = this.props;
+        const prop = this.props;
         return (
             <div>
-                <h2>To Do List <small>({prop.testStore.list.length})</small></h2>
+                <h2>To Do List <small>({prop.listLength})</small></h2>
             </div>
         );
     }
@@ -30,16 +23,11 @@ class Title extends React.Component<Props, {}> {
 
 function mapStateToProps(state: StateInt): StateProps {
     return {
-        testStore: state
+        listLength: state.list.length
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>) {
-    return bindActionCreators(
-        {}, 
-        dispatch
-    );
-}
+const mapDispatchToProps = {};
 
 export default connect<StateProps, DispatchProps>(
     mapStateToProps,

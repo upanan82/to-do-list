@@ -1,19 +1,14 @@
 import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { newFilter, NewFilter } from '../actions/filter';
-import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
+import { StateInt } from '../interfaces/index';
 
 interface Props extends StateProps, DispatchProps {}
 
 interface StateProps {
-    testStore: StateInt;
-}
-
-interface StateInt {
-    list: Array<ListStateInt>;
-    filter: FilterStateInt;
-    size: SizeStateInt;
+    listLength: number;
+    status: boolean | null;
+    activeSize: number;
 }
 
 interface DispatchProps {
@@ -22,35 +17,35 @@ interface DispatchProps {
 
 class Filter extends React.Component<Props, {}> {
     render() {
-        const prop: Props = this.props;
+        const prop = this.props;
         return (
             <div className="btn-group btn-group-justified filter">
                 <a
                     href="#all"
-                    className={`btn btn-primary ${prop.testStore.filter.status === null ? 'selectFilter' : ''}`}
+                    className={`btn btn-primary ${prop.status === null ? 'selectFilter' : ''}`}
                     onClick={() => {
                         prop.editFilter(null);
                     }}
                 >
-                    All ({prop.testStore.list.length})
+                    All ({prop.listLength})
                 </a>
                 <a
                     href="#active"
-                    className={`btn btn-primary ${prop.testStore.filter.status === false ? 'selectFilter' : ''}`}
+                    className={`btn btn-primary ${prop.status === false ? 'selectFilter' : ''}`}
                     onClick={() => {
                         prop.editFilter(false);
                     }}
                 >
-                    Active ({prop.testStore.list.length - prop.testStore.size.active})
+                    Active ({prop.listLength - prop.activeSize})
                 </a>
                 <a
                     href="#completed"
-                    className={`btn btn-primary ${prop.testStore.filter.status === true ? 'selectFilter' : ''}`}
+                    className={`btn btn-primary ${prop.status === true ? 'selectFilter' : ''}`}
                     onClick={() => {
                         prop.editFilter(true);
                     }}
                 >
-                    Completed ({prop.testStore.size.active})
+                    Completed ({prop.activeSize})
                 </a>
             </div>
         );
@@ -59,18 +54,15 @@ class Filter extends React.Component<Props, {}> {
 
 function mapStateToProps(state: StateInt): StateProps {
     return {
-        testStore: state
+        listLength: state.list.length,
+        status: state.filter.status,
+        activeSize: state.size.active
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>) {
-    return bindActionCreators(
-        {
-            editFilter: newFilter
-        },
-        dispatch
-    );
-}
+const mapDispatchToProps = {
+    editFilter: newFilter
+};
 
 export default connect<StateProps, DispatchProps>(
     mapStateToProps,

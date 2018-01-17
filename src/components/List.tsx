@@ -1,21 +1,16 @@
 import * as React from 'react';
-import { connect, Dispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { DONE_ITEM, REMOVE_ITEM } from '../constants/index';
-import { ListStateInt, FilterStateInt, SizeStateInt } from '../interfaces/index';
-import { bindActionCreators } from 'redux';
+import { ListStateInt, StateInt } from '../interfaces/index';
 import { editList, EditList } from '../actions/list';
 import { newSize, NewSize } from '../actions/size';
 
 interface Props extends StateProps, DispatchProps {}
 
 interface StateProps {
-    testStore: StateInt;
-}
-
-interface StateInt {
-    list: Array<ListStateInt>;
-    filter: FilterStateInt;
-    size: SizeStateInt;
+    list: ListStateInt[];
+    status: boolean | null;
+    activeSize: number;
 }
 
 interface DispatchProps {
@@ -26,12 +21,12 @@ interface DispatchProps {
 
 class List extends React.Component<Props, {}> {
     render() {
-        const prop: Props = this.props;
-        let newList: Array<ListStateInt> = prop.testStore.list.filter((el: ListStateInt) => {
-            if (prop.testStore.filter.status === null) {
+        const prop = this.props;
+        let newList: ListStateInt[] = prop.list.filter((el) => {
+            if (prop.status === null) {
                 return el;
             }
-            if (el.status !== prop.testStore.filter.status) {
+            if (el.status !== prop.status) {
                 return el;
             }
             return;
@@ -39,8 +34,8 @@ class List extends React.Component<Props, {}> {
         if (!newList.length) {
             return (<ul className="list-group todoList text-center someText">No Tasks!</ul>);
         }
-        let todoList: Element[] = newList.map((el: ListStateInt, ind: number): JSX.Element | Element => {
-            let arg: number = prop.testStore.size.active;
+        let todoList = newList.map((el, ind) => {
+            let arg: number = prop.activeSize;
             return (
                 <li className={`list-group-item listStyle ${el.status === false ? 'done' : ''}`} key={ind}>
                     <span
@@ -68,27 +63,24 @@ class List extends React.Component<Props, {}> {
                     />
                 </li>
             );
-        }) as Element[];
+        });
         return (<ul className="list-group todoList">{todoList}</ul>);
     }
 }
 
 function mapStateToProps(state: StateInt): StateProps {
     return {
-        testStore: state
+        list: state.list,
+        status: state.filter.status,
+        activeSize: state.size.active
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<object>) {
-    return bindActionCreators(
-        {
-            removeEl: editList,
-            done: editList,
-            editSize: newSize
-        },
-        dispatch
-    );
-}
+const mapDispatchToProps = {
+    removeEl: editList,
+    done: editList,
+    editSize: newSize
+};
 
 export default connect<StateProps, DispatchProps>(
     mapStateToProps,
